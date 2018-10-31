@@ -90,7 +90,9 @@ button:hover {
   /* font-weight: 600;
   text-transform: uppercase; */
   display: block;
-  background: url("./../images/header-logo-text.png");
+  background: url("./../images/header-img-text.png");
+  height: 24px;
+  width: 215px;
 }
 
 /* ***** header end ***** */

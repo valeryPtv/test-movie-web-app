@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
-import DateChoice from './DateChoice';
+import Header from './Header';
+import Home from './Home';
+import Films from './Films';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 class App extends Component {
   render() {
     return (
-      <div className="app">
-        <header className="app-header">
-          <span className="header-logo"></span>
-        </header>
-        <div className="main">
-          <DateChoice />
+      <BrowserRouter>
+        <div className="app">
+          <Header />
+
+          <div className="main">
+            <Route exact path="/" component={Home}/>
+            <Route path="/" component={Films}/>
+          </div>
         </div>
-      </div>
+      </BrowserRouter>
     );
   }
 }

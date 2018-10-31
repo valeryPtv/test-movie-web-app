@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Calendar from './Calendar';
 
-class DateChoice extends Component {
+class Home extends Component {
   render() {
     return (
       <div>
@@ -14,4 +14,4 @@ class DateChoice extends Component {
   }
 }
 
-export default DateChoice;
+export default Home;
