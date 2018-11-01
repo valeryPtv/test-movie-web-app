@@ -13,8 +13,8 @@ const Home = (props) => {
         </div>
         <p>Для получения списка сериалов, пожалуйста, выберите необходимый месяц и день</p>
       </div>
-      
-      <Calendar nextMonth={props.nextMonth} prevMonth={props.prevMonth} />
+
+      <Calendar setDate={props.setDate} />
     </div>
   )
 }

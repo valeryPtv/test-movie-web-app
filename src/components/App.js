@@ -9,25 +9,16 @@ class App extends Component {
     super(props);
 
     this.state = {
-      selectedMonth: new Date().getMonth(),
-      selectedDate: new Date().getDate()
+      selectedDate: dateFns.format(new Date(), 'YYYY-MM-DD')
     };
 
-    this.nextMonth = this.nextMonth.bind(this);
-    this.prevMonth = this.prevMonth.bind(this);
+    this.setDate = this.setDate.bind(this);
   }
 
-
-  nextMonth() {
-    console.log('nextMonth');
-    this.setState((prevState) => { selectedMonth: dateFns.addMonths(prevState.selectedMonth, 1) })
+  
+  setDate(inputDate) {
+    this.setState({selectedDate: dateFns.format(inputDate, 'YYYY-MM-DD')});
   }
-
-  prevMonth() {
-    this.setState((prevState) => { selectedMonth: dateFns.subMonths(prevState.selectedMonth, 1) })
-  }
-
-  //       currentMonth: dateFns.addMonths(this.state.currentMonth, 1)
 
   render() {
     return (
@@ -35,7 +26,7 @@ class App extends Component {
         <div className="app">
           <div className="page-wrapper">
             <Header />
-            <Main nextMonth={this.nextMonth} prevMonth={this.prevMonth}/>
+            <Main setDate={this.setDate}/>
           </div>
         </div>
       </BrowserRouter>

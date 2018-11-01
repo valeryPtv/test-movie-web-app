@@ -189,7 +189,13 @@ button:hover {
 
 /* calendar body */ 
 
+.selected-cell {
 
+}
+
+.disabled-cell {
+
+}
 
 /* ***** calendar end  ***** */
 
