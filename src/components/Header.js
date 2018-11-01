@@ -5,7 +5,7 @@ import HeaderLogoImg from './../images/header-img-text.png';
 const Header = () => {
   return (
     <header className="app-header">
-      <NavLink className="header-logo" to="/"><img src={HeaderLogoImg} alt=""/></NavLink>
+      <NavLink className="header-logo" to="/">super film</NavLink>
     </header>
   )
 }

@@ -1,4 +1,4 @@
-/* ******* start reset some defaults, set some basic rules to tags  ********/
+/* ******* start reset some defaults, set some basic layout rules  ********/
 
 body, html {
   width: 100%;
@@ -8,13 +8,14 @@ body, html {
 }
 
 html {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 body {
   font: var(--font-one);
   outline: none;
   min-height: calc(100% - 240px);
+  font-size: 1rem;
 }
 
 * {
@@ -45,16 +46,28 @@ button:hover {
   cursor: pointer;
 }
 
+#root {
+  /* there is bug in browsers with min-height, height inheritance: https://bit.ly/2DfBlUf */
+  /* to fix this use height: 1px; min-height: 100%*/
+  min-height: 100%;
+  height: 1px;
+}
 
-/* ******* start reset some defaults, set some basic rules to tags end  ********/
+.app, .page-wrapper {
+  height: 100%;
+  min-height: 568px;
+}
+
+/* ******* end reset some defaults, set some basic rules to tags end  ********/
 
 
-/* ******** reusable styles and variables start*/
+/* ******** start reusable styles and variables */
 
 :root {
   --font-one: 1.9rem 'Open Sans', sans-serif;
   --font-color-one: #999;
-  
+  --border-color-one: #e9e9e9;
+
   --main-color: #1a8fff;
   --text-color: #777;
   --text-color-light: #ccc;
@@ -74,36 +87,111 @@ button:hover {
   font: var(--font-one);
 }
 
-/* ***** reusable styles and variables end ***** */
+/* ***** end reusable styles and variables ***** */
 
-/* ***** header start ***** */
-
+/* ***** start styles common for all pages ***** */
 .app-header {
   background: url("./../images/header-bg.png") repeat-x;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100px;
+  height: 11%;
+  border-bottom: 2px solid var(--border-color-one);
 }
 
 .header-logo {
-  /* font-weight: 600;
-  text-transform: uppercase; */
-  display: block;
-  background: url("./../images/header-img-text.png");
-  height: 24px;
-  width: 215px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.2rem;
 }
 
-/* ***** header end ***** */
+.header-logo img {
+  width: 100%;
+  height: auto;
+}
+
+.main-content {
+  height: 1px;
+  min-height: 89%;
+}
+
+/* ***** end styles common for all pages ***** */
+
+/* ***** Home start ***** */
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.home-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* padding: 75px 0 85px; */
+  width: 66%;
+  height: 46.5%;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.TV-img-container {
+  width: 58%;
+  max-width: 300px;
+  margin-bottom: 12%;
+  height: 38%;
+}
+
+.TV-img-container img {
+  height: 100%;
+}
+
+
+/* ***** calendar start  ***** */
 
 .calendar-container {
-  height: 53%;
+  height: 53.5%;
   width: 100%;
 }
 
-/* ***** calendar start  ***** */
+.calendar-header {
+  height: 15.5%;
+  padding: 0 25px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  /* justify-content: center; */
+  border-top: 1px solid var(--border-color-one);
+  border-bottom: 1px solid var(--border-color-one);
+  background-color: #f1f1f1;
+}
+
+.month-name {
+  display: block;
+  margin: 0 auto;
+  font-size: 1.2rem;
+}
+
+.change-month {
+  display: flex;
+  width: 20px;
+  height: 27px;
+  align-items: center;
+}
+
+.change-month img {
+  width: 100%;
+  height: 100%;
+}
+
+/* calendar body */ 
 
 
 
 /* ***** calendar end  ***** */
+
+
+/* ***** Home end ***** */
