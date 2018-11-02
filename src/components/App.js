@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Header from './Header';
 import Main from './Main';
 import { BrowserRouter } from 'react-router-dom';
 import dateFns from 'date-fns';
@@ -12,12 +11,13 @@ class App extends Component {
 
     this.state = {
       selectedMonth: today,
-      selectedDate: today
+      selectedDate: today,
+      films: {}
     };
 
     this.nextMonth = this.nextMonth.bind(this);
     this.prevMonth = this.prevMonth.bind(this);
-    this.setDate = this.setDate.bind(this);
+    this.setDateAndFetch = this.setDateAndFetch.bind(this);
   }
 
   nextMonth() {
@@ -28,26 +28,36 @@ class App extends Component {
     this.setState({ selectedMonth: dateFns.subMonths(this.state.selectedMonth, 1) })
   }
 
-  setDate(inputDate) {
-    this.setState({ selectedDate: inputDate });
+  setDateAndFetch(inputDate) {
+    let prevDay = dateFns.subDays(inputDate, 1);
+    const formatDate = (input) => dateFns.format(input, 'YYYY-MM-DD');
+    const fetchFilms = (rowDate) => {
+      return fetch(`http://api.tvmaze.com/schedule?country=US&${formatDate(rowDate)}`)
+      .then((response) => (response.json()))
+      .then(response => { this.setState( { films: { [+rowDate]: response } } ) } )
+      .then(() => console.log(this.state.films))
+      .catch(e => {console.error(e)} );
+    }
+
+    this.setState({ selectedDate: inputDate }, () => {
+      fetchFilms(inputDate)
+      .then(() => {fetchFilms(prevDay)} )
+    });
   }
 
   render() {
-    // let methods = {this.nextMonth}
     let props = {
-      nextMonth: this.nextMonth, 
-      prevMonth: this.prevMonth, 
-      setDate: this.setDate, 
-      ...this.state
+      nextMonth: this.nextMonth,
+      prevMonth: this.prevMonth,
+      setDateAndFetch: this.setDateAndFetch,
+      selectedMonth: this.state.selectedMonth,
+      selectedDate: this.state.selectedDate
     };
 
     return (
       <BrowserRouter>
         <div className="app">
-          <div className="page-wrapper">
-            <Header />
-            <Main {...props} />
-          </div>
+          <Main {...props} />
         </div>
       </BrowserRouter>
     );

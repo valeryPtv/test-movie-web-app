@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import angleLeft from './../images/angle-left.svg';
 import angleRight from './../images/angle-right.svg';
 import dateFns from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
+import { NavLink } from 'react-router-dom';
 
 const Calendar = (props) => {
   return (
@@ -13,7 +14,7 @@ const Calendar = (props) => {
         />
 
       <CalendarBody 
-        setDate={props.setDate} 
+        setDateAndFetch={props.setDateAndFetch} 
         selectedDate={props.selectedDate} 
         selectedMonth={props.selectedMonth}
       />
@@ -27,13 +28,13 @@ const CalendarHeader = (props) => {
 
   return (
     <div className="calendar-header">
-      <a href="#" className="change-month">
+      <a href="#" className="angle">
         <img src={angleLeft} alt="previous month" onClick={props.prevMonth} />
       </a>
 
       <strong className="month-name">{monthString}</strong>
 
-      <a href="#" className="change-month">
+      <a href="#" className="angle">
         <img src={angleRight} alt="next month" onClick={props.nextMonth} />
       </a>
     </div>
@@ -41,13 +42,14 @@ const CalendarHeader = (props) => {
 }
 
 const CalendarBody = (props) => {
-  const { selectedMonth, selectedDate } = props;
+  const { selectedMonth, selectedDate, setDateAndFetch } = props;
   const monthStart = dateFns.startOfMonth(selectedMonth);
   const monthEnd = dateFns.endOfMonth(monthStart);
   const startDate = dateFns.startOfWeek(monthStart);
   const endDate = dateFns.endOfWeek(monthEnd);
   let weeksAmount = dateFns.differenceInCalendarWeeks(endDate, startDate) + 1;
   const dateFormat = 'D';
+
 
   let day = startDate;
   let rows = [];
@@ -56,12 +58,17 @@ const CalendarBody = (props) => {
     let row = [];
     
     for (let i = 0; i < 7; i++) {
+      let dayCopy = day;
       row.push(
-        <td key={i} className={`calendar-cell ${
-          dateFns.isSameMonth(day, monthStart) ?
-          (dateFns.isSameDay(day, selectedDate) ? 'selected-cell' : '') : 'disabled-cell'
-          }`}>
-          {dateFns.format(day, dateFormat)}
+        <td key={i} 
+          onClick={() => setDateAndFetch(dayCopy)} 
+          className={`calendar-cell ${
+            dateFns.isSameMonth(day, monthStart) ?
+              (dateFns.isSameDay(day, selectedDate) ? 'selected-cell' : '') : 'disabled-cell'
+            }`
+          }
+        >
+          <NavLink to='/films' className="film-link">{dateFns.format(day, dateFormat)}</NavLink>
         </td>
       );
       
@@ -77,9 +84,6 @@ const CalendarBody = (props) => {
     )
   }
 
-  console.log(rows);
-  // rows = rows.map(row => row.style=`height: calc(100% / ${rows.length})`);
-
   return (
     <table className="calendar-body">
       <tbody>
@@ -88,5 +92,6 @@ const CalendarBody = (props) => {
     </table>
   );
 }
+
 
 export default Calendar;

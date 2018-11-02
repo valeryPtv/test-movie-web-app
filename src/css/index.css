@@ -80,6 +80,7 @@ button:hover {
   --font-one: 1.9rem 'Open Sans', sans-serif;
   --font-color-one: #999;
   --border-color-one: #e9e9e9;
+  --color-red: #e10246;
 
   --main-color: #1a8fff;
   --text-color: #777;
@@ -103,19 +104,31 @@ button:hover {
 /* ***** end reusable styles and variables ***** */
 
 /* ***** start styles common for all pages ***** */
+
+.home-page-content {
+  height: 89%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .app-header {
   background: url("./../images/header-bg.png") repeat-x;
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   height: 11%;
   border-bottom: 2px solid var(--border-color-one);
+  width: 100%;
+  padding: 0 3.5%;
 }
 
 .header-logo {
   font-weight: bold;
   text-transform: uppercase;
-  font-size: 1.2rem;
+  font-size: calc(1.1rem + .35vw);
+  margin: 0 auto;
 }
 
 .header-logo img {
@@ -125,8 +138,9 @@ button:hover {
 
 .main-content {
   height: 1px;
-  min-height: 89%;
+  min-height: 100%;
 }
+
 
 /* ***** end styles common for all pages ***** */
 
@@ -145,7 +159,8 @@ button:hover {
   align-items: center;
   justify-content: center;
   /* padding: 75px 0 85px; */
-  width: 66%;
+  width: 100%;
+  padding: 0 17%;
   height: 46.5%;
   text-align: center;
   font-size: 1rem;
@@ -154,7 +169,7 @@ button:hover {
 .TV-img-container {
   width: 58%;
   max-width: 300px;
-  margin-bottom: 2rem;
+  margin-bottom: 2.4rem;
   height: 38%;
 }
 
@@ -188,14 +203,14 @@ button:hover {
   font-size: 1.2rem;
 }
 
-.change-month {
+.angle {
   display: flex;
   width: 20px;
   height: 27px;
   align-items: center;
 }
 
-.change-month img {
+.angle img {
   width: 100%;
   height: 100%;
 }
@@ -227,6 +242,7 @@ button:hover {
   align-items: center;
   border-right: 2px solid #d0d4d9;
   border-top: 2px solid #d0d4d9;
+  font-size: 1.2rem;
 }
 
 .calendar-cell:last-child {
@@ -235,14 +251,53 @@ button:hover {
 
 .selected-cell {
   font-weight: bold;
-  border: 2px solid #e10246 !important;
+  border: 2px solid var(--color-red);
+  background-color: #eef1f5;
 }
 
 .disabled-cell {
   color: #cccfd3;
 }
 
+.film-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
 /* ***** calendar end  ***** */
 
 
 /* ***** Home end ***** */
+
+/* ***** Films start ***** */
+
+.films-page {
+  height: 100%;
+}
+
+.return-link {
+  width: 2.6%;
+  max-width: 12px;
+  height: auto;
+}
+
+.heading-date {
+  width: 100%;
+  border-bottom: 1px solid var(--border-color-one);
+  height: 7.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.films-on-date {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ***** Films end ***** */
