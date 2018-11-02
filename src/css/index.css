@@ -1,6 +1,7 @@
 /* ******* start reset some defaults, set some basic layout rules  ********/
 
-body, html {
+body,
+html {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -22,7 +23,16 @@ body {
   box-sizing: border-box;
 }
 
-h1, h2, h3, h4, h5, h6, p, form, ul {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+form,
+ul,
+table {
   margin: 0;
   padding: 0;
 }
@@ -31,17 +41,19 @@ li {
   list-style: none;
 }
 
-a, a:hover {
+a,
+a:hover {
   text-decoration: none;
   color: inherit;
 }
 
-button, input[type="submit"] {
+button,
+input[type="submit"] {
   border: none;
   outline: none;
 }
 
-a:hover, 
+a:hover,
 button:hover {
   cursor: pointer;
 }
@@ -53,7 +65,8 @@ button:hover {
   height: 1px;
 }
 
-.app, .page-wrapper {
+.app,
+.page-wrapper {
   height: 100%;
   min-height: 568px;
 }
@@ -141,7 +154,7 @@ button:hover {
 .TV-img-container {
   width: 58%;
   max-width: 300px;
-  margin-bottom: 12%;
+  margin-bottom: 2rem;
   height: 38%;
 }
 
@@ -187,14 +200,55 @@ button:hover {
   height: 100%;
 }
 
-/* calendar body */ 
+/* calendar body */
+.calendar-body {
+  height: 84.5%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-body tbody {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.calendar-row {
+  width: 100%;
+  display: flex;
+  border-bottom: 2px solid #d0d4d9;
+}
+
+.calendar-row:first-child {
+  border-top: 2px solid #d0d4d9;
+}
+
+.calendar-row:last-child {
+  border-bottom: 0;
+}
+
+.calendar-cell {
+  width: calc(100%/7);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border-bottom: 1px solid var(--border-color-one); */
+  border-right: 2px solid #d0d4d9;
+}
+
+.calendar-cell:last-child {
+  border-right: 0;
+}
 
 .selected-cell {
-
+  font-weight: bold;
+  border: 2px solid #e10246;
 }
 
 .disabled-cell {
-
+  color: #cccfd3;
 }
 
 /* ***** calendar end  ***** */

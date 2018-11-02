@@ -4,75 +4,26 @@ import angleRight from './../images/angle-right.svg';
 import dateFns from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 
-class Calendar extends Component {
-  constructor(props) {
-    super(props);
-    // this.props.setDate
-
-    let today = new Date();
-
-    this.state = {
-      selectedMonth: today,
-      selectedDate: today
-    };
-
-    this.nextMonth = this.nextMonth.bind(this);
-    this.prevMonth = this.prevMonth.bind(this);
-  }
-
-
-  nextMonth() {
-    this.setState({ selectedMonth: dateFns.addMonths(this.state.selectedMonth, 1) })
-    console.log(this.state);
-  }
-
-  prevMonth() {
-    this.setState({ selectedMonth: dateFns.subMonths(this.state.selectedMonth, 1) })
-  }
-
-  renderCells() {
-    const { selectedMonth, selectedDate } = this.state;
-    const monthStart = dateFns.startOfMonth(selectedMonth);
-    const monthEnd = dateFns.endOfMonth(monthStart);
-    const startDate = dateFns.startOfWeek(monthStart);
-    const endDate = dateFns.endOfWeek(monthEnd);
-
-    let day = startDate;
-    let rows = [];
-
-    while (day <= endDate) {
-      let row = [];
-
-      for (let i = 0; i < 7; i++) {
-        row.push(
-          <td className={`calendar-cell ${
-            dateFns.isSameMonth(day, monthStart) ?
-              (dateFns.isSameDay(day, selectedDate) ? 'selected-cell' : 'disabled-cell') : null
-            }`}>
-
-          </td>
-        );
-      }
-    }
-  }
-
-  render() {
-    let monthString = dateFns.format(this.state.selectedMonth, 'MMMM', { locale: ruLocale });
-    monthString = monthString[0].toUpperCase() + monthString.slice(1);
-
-    return (
-      <div className="calendar-container">
-        <CalendarHeader nextMonth={this.nextMonth}
-          prevMonth={this.prevMonth}
-          selectedMonth={monthString}
+const Calendar = (props) => {
+  return (
+    <div className="calendar-container">
+      <CalendarHeader nextMonth={props.nextMonth}
+        prevMonth={props.prevMonth}
+        selectedMonth={props.selectedMonth}
         />
-      </div>
-    )
-  }
 
+      <CalendarBody 
+        setDate={props.setDate} 
+        selectedDate={props.selectedDate} 
+        selectedMonth={props.selectedMonth}
+      />
+    </div>
+  )
 }
 
 const CalendarHeader = (props) => {
+  let monthString = dateFns.format(props.selectedMonth, 'MMMM', { locale: ruLocale });
+  monthString = monthString[0].toUpperCase() + monthString.slice(1);
 
   return (
     <div className="calendar-header">
@@ -80,7 +31,7 @@ const CalendarHeader = (props) => {
         <img src={angleLeft} alt="previous month" onClick={props.prevMonth} />
       </a>
 
-      <strong className="month-name">{props.selectedMonth}</strong>
+      <strong className="month-name">{monthString}</strong>
 
       <a href="#" className="change-month">
         <img src={angleRight} alt="next month" onClick={props.nextMonth} />
@@ -90,28 +41,51 @@ const CalendarHeader = (props) => {
 }
 
 const CalendarBody = (props) => {
-  let dates = [];
+  const { selectedMonth, selectedDate } = props;
+  const monthStart = dateFns.startOfMonth(selectedMonth);
+  const monthEnd = dateFns.endOfMonth(monthStart);
+  const startDate = dateFns.startOfWeek(monthStart);
+  const endDate = dateFns.endOfWeek(monthEnd);
+  let weeksAmount = dateFns.differenceInCalendarWeeks(endDate, startDate) + 1;
+  const dateFormat = 'D';
 
-  for (let i = 1; i <= 35; i++) {
-    dates.push(i);
+  let day = startDate;
+  let rows = [];
+
+  while (day <= endDate) {
+    let row = [];
+    
+    for (let i = 0; i < 7; i++) {
+      row.push(
+        <td key={i} className={`calendar-cell ${
+          dateFns.isSameMonth(day, monthStart) ?
+          (dateFns.isSameDay(day, selectedDate) ? 'selected-cell' : '') : 'disabled-cell'
+          }`}>
+          {dateFns.format(day, dateFormat)}
+        </td>
+      );
+      
+      day = dateFns.addDays(day, 1);
+    }
+    
+    rows.push(
+      <tr 
+        className="calendar-row" key={day}
+        style={{height: `calc(100% /${weeksAmount}`}}>
+          {row}
+      </tr>
+    )
   }
+
+  console.log(rows);
+  // rows = rows.map(row => row.style=`height: calc(100% / ${rows.length})`);
 
   return (
     <table className="calendar-body">
       <tbody>
-
+        {rows}
       </tbody>
     </table>
-
-    // <ul className="calendar-body">
-    //   {
-    //     dates.map(date => (
-    //       <li className="calendar-cell">
-    //         <a href="#" className="calendar-link">{date}</a>
-    //       </li>)
-    //     )
-    //   }
-    // </ul>
   );
 }
 

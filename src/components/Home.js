@@ -3,8 +3,6 @@ import Calendar from './Calendar';
 import TVImg from './../images/home-TV.png';
 
 const Home = (props) => {
-
-
   return (
     <div className="home-page">
       <div className="home-top">
@@ -14,7 +12,7 @@ const Home = (props) => {
         <p>Для получения списка сериалов, пожалуйста, выберите необходимый месяц и день</p>
       </div>
 
-      <Calendar setDate={props.setDate} />
+      <Calendar {...props} />
     </div>
   )
 }
