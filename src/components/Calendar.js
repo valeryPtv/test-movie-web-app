@@ -3,7 +3,7 @@ import angleLeft from './../images/angle-left.svg';
 import angleRight from './../images/angle-right.svg';
 import dateFns from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
-import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const Calendar = (props) => {
   return (
@@ -21,6 +21,7 @@ const Calendar = (props) => {
     </div>
   )
 }
+
 
 const CalendarHeader = (props) => {
   let monthString = dateFns.format(props.selectedMonth, 'MMMM', { locale: ruLocale });
@@ -41,6 +42,12 @@ const CalendarHeader = (props) => {
   );
 }
 
+CalendarHeader.propTypes = {
+  prevMonth: PropTypes.func.isRequired,
+  nextMonth: PropTypes.func.isRequired,
+  selectedMonth: PropTypes.object.isRequired
+}
+
 const CalendarBody = (props) => {
   const { selectedMonth, selectedDate, setDateAndFetch } = props;
   const monthStart = dateFns.startOfMonth(selectedMonth);
@@ -49,26 +56,31 @@ const CalendarBody = (props) => {
   const endDate = dateFns.endOfWeek(monthEnd);
   let weeksAmount = dateFns.differenceInCalendarWeeks(endDate, startDate) + 1;
   const dateFormat = 'D';
-
-
+  
+  
   let day = startDate;
   let rows = [];
-
+  
   while (day <= endDate) {
     let row = [];
     
     for (let i = 0; i < 7; i++) {
       let dayCopy = day;
+
+      const linkHandler = (e) => {
+        e.preventDefault(); 
+        setDateAndFetch(dayCopy)
+      }
+
       row.push(
         <td key={i} 
-          onClick={() => setDateAndFetch(dayCopy)} 
           className={`calendar-cell ${
             dateFns.isSameMonth(day, monthStart) ?
-              (dateFns.isSameDay(day, selectedDate) ? 'selected-cell' : '') : 'disabled-cell'
+            (dateFns.isSameDay(day, selectedDate) ? 'selected-cell' : '') : 'disabled-cell'
             }`
           }
         >
-          <NavLink to='/films' className="film-link">{dateFns.format(day, dateFormat)}</NavLink>
+          <span className="film-link" onClick={linkHandler}> {dateFns.format(day, dateFormat)} </span>
         </td>
       );
       
@@ -77,7 +89,7 @@ const CalendarBody = (props) => {
     
     rows.push(
       <tr 
-        className="calendar-row" key={day}
+      className="calendar-row" key={day}
         style={{height: `calc(100% /${weeksAmount}`}}>
           {row}
       </tr>
@@ -93,5 +105,10 @@ const CalendarBody = (props) => {
   );
 }
 
+CalendarBody.propTypes = {
+  selectedMonth: PropTypes.object.isRequired,
+  selectedDate: PropTypes.object.isRequired,
+  setDateAndFetch: PropTypes.func
+}
 
 export default Calendar;

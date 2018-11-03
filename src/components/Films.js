@@ -8,6 +8,8 @@ const Films = (props) => {
     dateFns.format(date, 'D MMMM YYYY', { locale: ruLocale })
   )
 
+  console.log(props);
+
     return (
       <div className="films-page">
         <Header showReturnLink={true}/>
@@ -17,7 +19,12 @@ const Films = (props) => {
           </div>
 
           <div className="films">
-          
+          {/* {console.log(props.films[+props.selectedDate].__proto__)} */}
+            {/* {
+              props.films[+props.selectedDate].map((film, i) => (
+                <Film key={i} props={film.image, film.name, film.number, film.season} />
+              ))
+            } */}
           </div>
 
           <button className="more-films">
@@ -27,5 +34,24 @@ const Films = (props) => {
       </div>
     )
 }
+
+const Film = (props) => {
+
+  return (
+    <div className="film-item">
+      <div className="film-img">
+        <img src={props.image.medium}></img>
+      </div>
+
+      <h4 className="film-name">{props.name}</h4>
+
+      <span className="film-year"></span>
+      <div className="film-episode-pointer">
+        <span className="film-season"></span>
+        <span className="film-episode"></span>
+      </div>
+    </div>
+  )
+} 
 
 export default Films;

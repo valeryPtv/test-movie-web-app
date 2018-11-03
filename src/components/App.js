@@ -34,8 +34,7 @@ class App extends Component {
     const fetchFilms = (rowDate) => {
       return fetch(`http://api.tvmaze.com/schedule?country=US&${formatDate(rowDate)}`)
       .then((response) => (response.json()))
-      .then(response => { this.setState( { films: { [+rowDate]: response } } ) } )
-      .then(() => console.log(this.state.films))
+      .then(response => { this.setState( { films: { ...this.state.films, [+rowDate]: response } } ) } )
       .catch(e => {console.error(e)} );
     }
 
@@ -50,8 +49,7 @@ class App extends Component {
       nextMonth: this.nextMonth,
       prevMonth: this.prevMonth,
       setDateAndFetch: this.setDateAndFetch,
-      selectedMonth: this.state.selectedMonth,
-      selectedDate: this.state.selectedDate
+      ...this.state
     };
 
     return (
