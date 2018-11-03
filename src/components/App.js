@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Main from './Main';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import dateFns from 'date-fns';
+import history from './history';
 
 class App extends Component {
   constructor(props) {
@@ -31,18 +32,60 @@ class App extends Component {
   setDateAndFetch(inputDate) {
     let prevDay = dateFns.subDays(inputDate, 1);
     const formatDate = (input) => dateFns.format(input, 'YYYY-MM-DD');
-    const fetchFilms = (rowDate) => {
-      return fetch(`http://api.tvmaze.com/schedule?country=US&${formatDate(rowDate)}`)
-      .then((response) => (response.json()))
-      .then(response => { this.setState( { films: { ...this.state.films, [+rowDate]: response } } ) } )
-      .catch(e => {console.error(e)} );
-    }
 
     this.setState({ selectedDate: inputDate }, () => {
-      fetchFilms(inputDate)
-      .then(() => {fetchFilms(prevDay)} )
+      fetch(`http://api.tvmaze.com/schedule?country=US&${formatDate(inputDate)}`)
+      .then((response) => response.json())
+      .then (
+        response => { 
+          this.setState( { films: { ...this.state.films, [+inputDate]: response } } ,
+            () => { history.push('/films')  } ) 
+        } 
+      )
+
+      // fetchFilms(inputDate)
+      // .then(() => {fetchFilms(prevDay)} )
+      // .catch(() => { console.log(this.state.films)} )
+      // .then(() => { history.push('/films') } )
+      // .catch(e => { console.error(e)} );
     });
+
+
+    // const fetchFilms = (rowDate) => {
+    //   return fetch(`http://api.tvmaze.com/schedule?country=US&${formatDate(rowDate)}`)
+    //   .then((response) => (response.json()))
+    //   .then(response => { this.setState( { films: { ...this.state.films, [+rowDate]: response } } ) } )
+    //   .catch(e => {console.error(e)} );
+    // }
+
+    // this.setState({ selectedDate: inputDate }, () => {
+    //   fetchFilms(inputDate)
+    //   .then(() => {fetchFilms(prevDay)} )
+    //   .catch(() => { console.log(this.state.films)} )
+    //   .then(() => { history.push('/films') } )
+    //   .catch(e => { console.error(e)} );
+    // });
   }
+
+  // setDateAndFetch(inputDate) {
+  //   let prevDay = dateFns.subDays(inputDate, 1);
+  //   const formatDate = (input) => dateFns.format(input, 'YYYY-MM-DD');
+  //   const fetchFilms = (rowDate) => {
+  //     return fetch(`http://api.tvmaze.com/schedule?country=US&${formatDate(rowDate)}`)
+  //     .then((response) => (response.json()))
+  //     .then(response => { this.setState( { films: { ...this.state.films, [+rowDate]: response } } ) } )
+  //     .catch(e => {console.error(e)} );
+  //   }
+
+  //   this.setState({ selectedDate: inputDate }, () => {
+  //     fetchFilms(inputDate)
+  //     .then(() => {fetchFilms(prevDay)} )
+  //     .catch(() => { console.log(this.state.films)} )
+  //     .then(() => { history.push('/films') } )
+  //     .catch(e => { console.error(e)} );
+  //   });
+  // }
+
 
   render() {
     let props = {
@@ -53,11 +96,11 @@ class App extends Component {
     };
 
     return (
-      <BrowserRouter>
+      <Router history={history}>
         <div className="app">
           <Main {...props} />
         </div>
-      </BrowserRouter>
+      </Router>
     );
   }
 }
