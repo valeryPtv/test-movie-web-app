@@ -4,6 +4,7 @@ import angleRight from './../images/angle-right.svg';
 import dateFns from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
 const Calendar = (props) => {
   return (
@@ -49,14 +50,14 @@ CalendarHeader.propTypes = {
 }
 
 const CalendarBody = (props) => {
-  const { selectedMonth, selectedDate, setDateAndFetch } = props;
+  const { selectedMonth, selectedDate, setDateAndFetch, setDate } = props;
   const monthStart = dateFns.startOfMonth(selectedMonth);
   const monthEnd = dateFns.endOfMonth(monthStart);
   const startDate = dateFns.startOfWeek(monthStart);
   const endDate = dateFns.endOfWeek(monthEnd);
   let weeksAmount = dateFns.differenceInCalendarWeeks(endDate, startDate) + 1;
   const dateFormat = 'D';
-  
+  const formatDate = (input) => dateFns.format(input, 'YYYY-MM-DD');
   
   let day = startDate;
   let rows = [];
@@ -67,10 +68,11 @@ const CalendarBody = (props) => {
     for (let i = 0; i < 7; i++) {
       let dayCopy = day;
 
-      const linkHandler = (e) => {
-        e.preventDefault(); 
-        setDateAndFetch(dayCopy)
-      }
+      // const linkHandler = (e) => {
+      //   e.preventDefault(); 
+      //   setDateAndFetch(dayCopy)
+      // }
+
 
       row.push(
         <td key={i} 
@@ -80,7 +82,7 @@ const CalendarBody = (props) => {
             }`
           }
         >
-          <span className="film-link" onClick={linkHandler}> {dateFns.format(day, dateFormat)} </span>
+          <NavLink to={`/schedule?country=US&date=${formatDate(dayCopy)}`} className="film-link" onClick={setDate}> {dateFns.format(day, dateFormat)} </NavLink>
         </td>
       );
       

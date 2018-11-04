@@ -9,7 +9,8 @@ const Main = (props) => {
     prevMonth: props.prevMonth,
     setDateAndFetch: props.setDateAndFetch,
     selectedMonth: props.selectedMonth,
-    selectedDate: props.selectedDate
+    selectedDate: props.selectedDate,
+    setDate: props.setDate
   };
 
   let propsFilms = {
@@ -22,7 +23,7 @@ const Main = (props) => {
   return (
     <div className="main-content">
       <Route exact path="/" render={(callbackProps) => <Home {...propsHome} />} />
-      <Route path="/films" render={(callbackProps) => <Films {...propsFilms} />} />
+      <Route path="/schedule" render={(callbackProps) => <Films {...propsFilms} />} />
     </div>
   )
 
