@@ -50,7 +50,7 @@ CalendarHeader.propTypes = {
 }
 
 const CalendarBody = (props) => {
-  const { selectedMonth, selectedDate, setDateAndFetch, setDate } = props;
+  const { selectedMonth, selectedDate } = props;
   const monthStart = dateFns.startOfMonth(selectedMonth);
   const monthEnd = dateFns.endOfMonth(monthStart);
   const startDate = dateFns.startOfWeek(monthStart);
@@ -67,13 +67,6 @@ const CalendarBody = (props) => {
     
     for (let i = 0; i < 7; i++) {
       let dayCopy = day;
-
-      // const linkHandler = (e) => {
-      //   e.preventDefault(); 
-      //   setDateAndFetch(dayCopy)
-      // }
-
-
       row.push(
         <td key={i} 
           className={`calendar-cell ${
@@ -82,7 +75,7 @@ const CalendarBody = (props) => {
             }`
           }
         >
-          <NavLink to={`/schedule?country=US&date=${formatDate(dayCopy)}`} className="film-link" onClick={setDate}> {dateFns.format(day, dateFormat)} </NavLink>
+          <NavLink to={`/schedule?country=US&date=${formatDate(dayCopy)}`} className="film-link"> {dateFns.format(day, dateFormat)} </NavLink>
         </td>
       );
       
@@ -109,8 +102,7 @@ const CalendarBody = (props) => {
 
 CalendarBody.propTypes = {
   selectedMonth: PropTypes.object.isRequired,
-  selectedDate: PropTypes.object.isRequired,
-  setDateAndFetch: PropTypes.func
+  selectedDate: PropTypes.object.isRequired
 }
 
 export default Calendar;

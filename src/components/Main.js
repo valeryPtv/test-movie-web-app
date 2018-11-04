@@ -7,15 +7,13 @@ const Main = (props) => {
   let propsHome = {
     nextMonth: props.nextMonth,
     prevMonth: props.prevMonth,
-    setDateAndFetch: props.setDateAndFetch,
     selectedMonth: props.selectedMonth,
-    selectedDate: props.selectedDate,
-    setDate: props.setDate
+    selectedDate: props.selectedDate
   };
 
   let propsFilms = {
     selectedDate: props.selectedDate,
-    films: props.films,
+    setDate: props.setDate,
     showModal: props.showModal,
     isModalShown: props.isModalShown 
   };

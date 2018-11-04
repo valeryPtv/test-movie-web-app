@@ -11,13 +11,14 @@ class Films extends Component {
     films: {}
   };
 
-  componentDidMount() {
+  componentWillMount() {
     const formatDate = (input) => dateFns.format(input, 'YYYY-MM-DD');
     // URLSearchParams not supported in IE
     const urlParams = new URLSearchParams(this.props.location.search);
     const date = dateFns.parse(urlParams.get('date'));
+    this.props.setDate(date);
     // previous day
-    const prevDay = dateFns.subDays( date, 1);
+    const prevDay = dateFns.subDays(date, 1);
     let filmsStorage = {};
 
     const fetchFilms = (inputDate, store) => {
@@ -25,48 +26,55 @@ class Films extends Component {
       const address = `http://api.tvmaze.com/schedule?country=US&date=${formattedDate}`;
 
       return fetch(address)
-      .then(response => response.json())
-      .then((response) => { store[formattedDate] = response } )
+        .then(response => response.json())
+        .then((response) => { store[formattedDate] = response })
     }
-    
-    fetchFilms(date, filmsStorage)
-    .then(() => { fetchFilms(prevDay, filmsStorage) })
-    // .then(() => alert())
-    .then(this.setState(() => ( { films:  filmsStorage} ) , () => { this.forceUpdate() } ))
-    // .then(this.setState( { films:  filmsStorage} ))
-    // .then(() => { console.log(`obj keys ${Object.keys(this.state.films).length}` ) } )
-    
+
+    const getAddress = (inputDate) => {
+      const formattedDate = formatDate(inputDate);
+      return `http://api.tvmaze.com/schedule?country=US&date=${formattedDate}`;
+    }
+
+    fetch(getAddress(date))
+      .then(response => response.json())
+      // .then((response) => { this.setState( { films: response } ) } );
+      .then(response => { filmsStorage[+date] = response })
+      .then(() => fetch(getAddress(prevDay)))
+      .then(response => response.json())
+      .then(response => { filmsStorage[+prevDay] = response })
+      .then(() => { this.setState(() => ({ films: filmsStorage })) })
   }
-  
+
   render() {
+    console.log(this.props);
     const formatDate = (date) => (
       dateFns.format(date, 'D MMMM YYYY', { locale: ruLocale })
-      )
+    )
 
-    const getFilms = (films, amount) => {
+    const getFilms = (dateList, amount) => {
       let result = [];
-
-      for (let i = 0; i < amount; i++) {
-        result.push(
-          <Film key={i}
-            image={films[i].show.image}
-            number={films[i].number}
-            season={films[i].season}
-            name={films[i].name}
-            premiered={films[i].show.premiered}
-            isModalShown={this.props.isModalShown}
-            showModal={this.props.showModal}
+      Object.keys(dateList).forEach(filmsKey => {
+        let films = dateList[filmsKey];
+        for (let i = 0; i < amount; i++) {
+          result.push(
+            <Film key={filmsKey + i}
+              image={films[i].show.image}
+              number={films[i].number}
+              season={films[i].season}
+              name={films[i].name}
+              premiered={films[i].show.premiered}
+              isModalShown={this.props.isModalShown}
+              showModal={this.props.showModal}
             />
-        );
-      }
-      
+          );
+        }
+      })
+
       return result;
     }
 
     return (
       <div className="films-page">
-      {/* {console.log('render')} */}
-
         <Header showReturnLink={true} />
         <main className="films-page-content">
           <div className="heading-date container">
@@ -74,12 +82,9 @@ class Films extends Component {
           </div>
 
           <div className="films-container container">
-            {/* { console.log((this.state.films)) } */}
-            {/* { console.log(Object.keys(this.state.films)) } */}
-       {console.log(`obj keys ${Object.keys(this.state.films).length}` ) }
             {
-              Object.keys(this.state.films).length >= 1 ? 
-                getFilms(this.state.films[+this.props.selectedDate], 2) : null
+              Object.keys(this.state.films).length >= 1 ?
+                getFilms(this.state.films, 2) : null
             }
           </div>
 
@@ -94,54 +99,6 @@ class Films extends Component {
     )
   }
 }
-
-// const Films = (props) => {
-//   const formatDate = (date) => (
-//     dateFns.format(date, 'D MMMM YYYY', { locale: ruLocale })
-//   )
-
-//   const getFilms = (films, amount) => {
-//     let result = [];
-
-//     for (let i = 0; i < amount; i++) {
-//       result.push(
-//         <Film key={i}
-//           image={films[i].show.image}
-//           number={films[i].number}
-//           season={films[i].season}
-//           name={films[i].name}
-//           premiered={films[i].show.premiered}
-//           isModalShown={props.isModalShown}
-//           showModal={props.showModal}
-//         />
-//       );
-//     }
-
-//     return result;
-//   }
-
-//   return (
-//     <div className="films-page">
-//       <Header showReturnLink={true} />
-//       <main className="films-page-content">
-//         <div className="heading-date container">
-//           <h3>{formatDate(props.selectedDate)}</h3>
-//         </div>
-
-//         <div className="films-container container">
-//           {getFilms(props.films[+props.selectedDate], 2)}
-//         </div>
-
-//         <div className="container">
-//           <button className="more-films">
-//             Еще 32 сериала
-//             <img src={angleDown} className="angle-down angle-down_margin-left" alt="angle downg"/>
-//           </button>
-//         </div>
-//       </main>
-//     </div>
-//   )
-// }
 
 class Film extends Component {
   constructor(props) {
