@@ -1,5 +1,5 @@
 import React from 'react'
-import Films from './Films';
+import FilmsContainer from './Films';
 import Home from './Home';
 import { Route } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const Main = (props) => {
   return (
     <div className="main-content">
       <Route exact path="/" render={(callbackProps) => <Home {...propsHome} />} />
-      <Route path="/schedule" render={(callbackProps) => <Films {...propsFilms} />} />
+      <Route path="/schedule" render={(callbackProps) => <FilmsContainer {...propsFilms} />} />
     </div>
   )
 
