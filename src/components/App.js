@@ -13,12 +13,14 @@ class App extends Component {
     this.state = {
       selectedMonth: today,
       selectedDate: today,
-      films: {}
+      films: {},
+      modalState: false
     };
 
     this.nextMonth = this.nextMonth.bind(this);
     this.prevMonth = this.prevMonth.bind(this);
     this.setDateAndFetch = this.setDateAndFetch.bind(this);
+    this.showModal = this.showModal.bind(this);
   }
 
   nextMonth() {
@@ -86,12 +88,25 @@ class App extends Component {
   //   });
   // }
 
+  showModal(node) {
+    // console.log(`showModal()`);
+    // return (prevState) => {this.setState({isModalShown: !prevState.isModalShown})};
+    // this.setState({modalState: !this.state.modalState})
+    let modalStateValue
+    
+    modalStateValue = this.state.modalState === false ? node : false; 
+    
+    this.setState({modalState: modalStateValue});
+
+    // this.setState(() => {modalState: !this.state.modalState}))
+  }
 
   render() {
     let props = {
       nextMonth: this.nextMonth,
       prevMonth: this.prevMonth,
       setDateAndFetch: this.setDateAndFetch,
+      showModal: this.showModal,
       ...this.state
     };
 

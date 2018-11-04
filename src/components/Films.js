@@ -3,6 +3,7 @@ import Header from './Header';
 import dateFns from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import angleDown from './../images/angle-down.png';
+import Modal from './Modal/Modal';
 
 const Films = (props) => {
   const formatDate = (date) => (
@@ -20,6 +21,8 @@ const Films = (props) => {
           season={films[i].season}
           name={films[i].name}
           premiered={films[i].show.premiered}
+          modalState={props.modalState}
+          showModal={props.showModal}
         />
       );
     }
@@ -44,7 +47,7 @@ const Films = (props) => {
         <div className="container">
           <button className="more-films">
             Еще 32 сериала
-          <img src={angleDown} className="angle-down angle-down_margin-left" />
+            <img src={angleDown} className="angle-down angle-down_margin-left" />
           </button>
         </div>
       </main>
@@ -53,15 +56,10 @@ const Films = (props) => {
 }
 
 const Film = (props) => {
-  // const getCreationYear = (str) => str.slice(4)
 
-  console.log(props);
   return (
     <div className="film-item">
-      <div className="film-img">
-        <img src={props.image.medium}></img>
-      </div>
-
+      <FilmImage image={props.image} showModal={props.showModal} />
       <div className="film-text">
         <div className="film-text-top">
           <h4 className="film-name">{props.name}</h4>
@@ -74,6 +72,25 @@ const Film = (props) => {
         </div>
       </div>
     </div>
+  )
+}
+
+const FilmImage = (props) => {
+  // console.log(props);
+  let showModalTarget;
+
+  const imageOnClick = (e) => {
+    e.persist();
+    props.showModal(e.target)
+  } 
+
+  return (
+      <div className="film-img" onClick={ imageOnClick } ref={(node) => { showModalTarget = node; console.log(showModalTarget) }}>
+        <img src={props.image.medium} className="film-img__medium"/>
+        {props.modalState === showModalTarget ?
+          <Modal showModal={props.showModal}> <img src={props.image.original} className="modal-img"/> </Modal> : null
+        }
+      </div>
   )
 }
 

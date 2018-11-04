@@ -14,7 +14,9 @@ const Main = (props) => {
 
   let propsFilms = {
     selectedDate: props.selectedDate,
-    films: props.films
+    films: props.films,
+    showModal: props.showModal,
+    isModalShown: props.isModalShown 
   };
 
   return (
