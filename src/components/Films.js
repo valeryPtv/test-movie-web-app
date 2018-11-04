@@ -308,9 +308,10 @@ class Film extends Component {
 }
 
 const FilmImage = (props) => {
+  // {debugger}
   return (
     <div className="film-img" onClick={props.showModal}>
-      <img src={props.image.medium} className="film-img__medium" alt="movie" />
+      <img src={props.image ? props.image.medium : ""} className="film-img__medium" alt="movie" />
       {
         props.isModalShown === true ?
           <Modal showModal={props.showModal}>
