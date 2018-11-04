@@ -21,7 +21,7 @@ const Films = (props) => {
           season={films[i].season}
           name={films[i].name}
           premiered={films[i].show.premiered}
-          modalState={props.modalState}
+          isModalShown={props.isModalShown}
           showModal={props.showModal}
         />
       );
@@ -56,10 +56,16 @@ const Films = (props) => {
 }
 
 const Film = (props) => {
-
+  console.log(props);
   return (
     <div className="film-item">
-      <FilmImage image={props.image} showModal={props.showModal} />
+      <div className="film-img" onClick={props.showModal}>
+        <img src={props.image.medium} className="film-img__medium"/>
+        {props.isModalShown === true ?
+          <Modal showModal={props.showModal}> <img src={props.image.original} className="modal-img"/> </Modal> : null
+        }
+      </div>
+
       <div className="film-text">
         <div className="film-text-top">
           <h4 className="film-name">{props.name}</h4>
@@ -72,25 +78,6 @@ const Film = (props) => {
         </div>
       </div>
     </div>
-  )
-}
-
-const FilmImage = (props) => {
-  // console.log(props);
-  let showModalTarget;
-
-  const imageOnClick = (e) => {
-    e.persist();
-    props.showModal(e.target)
-  } 
-
-  return (
-      <div className="film-img" onClick={ imageOnClick } ref={(node) => { showModalTarget = node; console.log(showModalTarget) }}>
-        <img src={props.image.medium} className="film-img__medium"/>
-        {props.modalState === showModalTarget ?
-          <Modal showModal={props.showModal}> <img src={props.image.original} className="modal-img"/> </Modal> : null
-        }
-      </div>
   )
 }
 

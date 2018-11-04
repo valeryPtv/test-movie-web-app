@@ -14,7 +14,7 @@ class App extends Component {
       selectedMonth: today,
       selectedDate: today,
       films: {},
-      modalState: false
+      isModalShown: false
     };
 
     this.nextMonth = this.nextMonth.bind(this);
@@ -88,17 +88,10 @@ class App extends Component {
   //   });
   // }
 
-  showModal(node) {
+  showModal() {
     // console.log(`showModal()`);
     // return (prevState) => {this.setState({isModalShown: !prevState.isModalShown})};
-    // this.setState({modalState: !this.state.modalState})
-    let modalStateValue
-    
-    modalStateValue = this.state.modalState === false ? node : false; 
-    
-    this.setState({modalState: modalStateValue});
-
-    // this.setState(() => {modalState: !this.state.modalState}))
+    this.setState({isModalShown: !this.state.isModalShown})
   }
 
   render() {
