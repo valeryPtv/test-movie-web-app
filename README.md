@@ -4,36 +4,8 @@
 Развернуть нужно просто при помощи npm install в корне проекта.
 Старт dev сервера при помощи npm run start
 
-Содержимое package.json 
+Все версии необходимого для развертывания ПО находятся в файле package.json
 
-{
-  "name": "mobile-test",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "date-fns": "^1.29.0",
-    "history": "^4.7.2",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
-}
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
