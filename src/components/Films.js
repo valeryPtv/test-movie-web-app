@@ -73,6 +73,7 @@ class FilmsOnDate extends Component {
   render() {
     const { date, films } = this.props;
     let button, word;
+    let number = films.length - 2;
     let lastNumber = +(films.length - 2 + '').slice(-1); // get last number from films amount
 
     const formatDate = (date) => (
@@ -86,15 +87,15 @@ class FilmsOnDate extends Component {
       this.setState({ shownFilms: [...filmsToShow] }, () => { console.log(this.state) })
     }
 
-    if (lastNumber === 1) {
+    if (number > 10 && number < 20 || lastNumber > 4 && lastNumber <= 9 || lastNumber === 0) {
+      word = 'сериалов';
+    }
+    else if (lastNumber === 1) {
       word = 'сериал';
     }
     else if (lastNumber > 1 && lastNumber < 5) {
       word = 'сериала';
-    } else {
-      word = 'сериалов';
-    }
-
+    } 
 
     if (this.state.shownFilms.length > 2) {
       button = (
